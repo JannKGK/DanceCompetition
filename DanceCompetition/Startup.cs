@@ -55,8 +55,16 @@ namespace DanceCompetition
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "grade1",
+                    pattern: "dancepairs/indexgrade1",
+                    defaults: new { controller = "DancePairs", action = "IndexGrade1" }
+                );
+            }
+            );
         }
     }
 }

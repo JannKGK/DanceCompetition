@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DanceCompetition.Data;
 using DanceCompetition.Models;
@@ -17,6 +14,89 @@ namespace DanceCompetition.Controllers
         public DancePairsController(DanceCompetitionContext context)
         {
             _context = context;
+        }
+
+        public async Task<IActionResult> IndexGrade1()
+        {
+            var dancePairs = await _context.DancePair.ToListAsync();
+
+            var filteredDancePairs = dancePairs.Where(dp => dp.grade1 == 0);
+
+            return View(filteredDancePairs);
+        }
+
+        public async Task<IActionResult> EditGrade1(int id)
+        {
+            var dancePair = await _context.DancePair.FindAsync(id);
+            if (dancePair == null)
+            {
+                return NotFound();
+            }
+
+            return View(dancePair);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditGrade1(int id, [Bind("Id,grade1")] DancePair dancePair)
+        {
+            if (id != dancePair.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingDancePair = await _context.DancePair.FindAsync(id);
+                    existingDancePair.grade1 = dancePair.grade1;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DancePairExists(dancePair.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(IndexGrade1));
+            }
+            return View(dancePair);
+        }
+
+        public async Task<IActionResult> IndexGrade2()
+        {
+            var dancePairs = await _context.DancePair.ToListAsync();
+
+            var filteredDancePairs = dancePairs.Where(dp => dp.grade2 == 0);
+
+            return View(filteredDancePairs);
+        }
+
+        public async Task<IActionResult> IndexGrade3()
+        {
+            var dancePairs = await _context.DancePair.ToListAsync();
+
+            var filteredDancePairs = dancePairs.Where(dp => dp.grade3 == 0);
+
+            return View(filteredDancePairs);
+        }
+
+            [HttpPost]
+        public async Task<IActionResult> ChangeGrade1([Bind("Id,grade1")] DancePair dancePair)
+        {
+            var existingDancePair = await _context.DancePair
+                .FirstOrDefaultAsync(m => m.Id == dancePair.Id);
+
+            existingDancePair.grade1 = dancePair.grade1;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: DancePairs
