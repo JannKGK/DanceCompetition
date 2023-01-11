@@ -1,0 +1,25 @@
+﻿@model IEnumerable<DanceCompetition.Models.DancePair>
+
+@{
+    ViewData["Title"] = "Results";
+}
+
+<h1>Results</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Average Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(x => x.getAverageGrade()))
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.getAverageGrade()</td>
+            </tr>
+        }
+    </tbody>
+</table>

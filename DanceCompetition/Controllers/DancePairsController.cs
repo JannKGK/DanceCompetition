@@ -16,6 +16,11 @@ namespace DanceCompetition.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> IndexResult()
+        {
+            return View(await _context.DancePair.ToListAsync());
+        }
+
         public async Task<IActionResult> IndexGrade1()
         {
             var dancePairs = await _context.DancePair.ToListAsync();
