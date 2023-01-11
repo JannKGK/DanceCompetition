@@ -25,50 +25,6 @@ namespace DanceCompetition.Controllers
             return View(filteredDancePairs);
         }
 
-        public async Task<IActionResult> EditGrade1(int id)
-        {
-            var dancePair = await _context.DancePair.FindAsync(id);
-            if (dancePair == null)
-            {
-                return NotFound();
-            }
-
-            return View(dancePair);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditGrade1(int id, [Bind("Id,grade1")] DancePair dancePair)
-        {
-            if (id != dancePair.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var existingDancePair = await _context.DancePair.FindAsync(id);
-                    existingDancePair.grade1 = dancePair.grade1;
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DancePairExists(dancePair.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(IndexGrade1));
-            }
-            return View(dancePair);
-        }
-
         public async Task<IActionResult> IndexGrade2()
         {
             var dancePairs = await _context.DancePair.ToListAsync();
@@ -87,16 +43,33 @@ namespace DanceCompetition.Controllers
             return View(filteredDancePairs);
         }
 
-            [HttpPost]
-        public async Task<IActionResult> ChangeGrade1([Bind("Id,grade1")] DancePair dancePair)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeGrade1(int id, int grade)
         {
-            var existingDancePair = await _context.DancePair
-                .FirstOrDefaultAsync(m => m.Id == dancePair.Id);
-
-            existingDancePair.grade1 = dancePair.grade1;
+            var dancePair = await _context.DancePair
+                .FirstOrDefaultAsync(m => m.Id == id);
+            dancePair.grade1 = grade;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexGrade1));
+        }
 
-            return RedirectToAction(nameof(Index));
+        public async Task<IActionResult> ChangeGrade2(int id, int grade)
+        {
+            var dancePair = await _context.DancePair
+                .FirstOrDefaultAsync(m => m.Id == id);
+            dancePair.grade2 = grade;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexGrade2));
+        }
+
+        public async Task<IActionResult> ChangeGrade3(int id, int grade)
+        {
+            var dancePair = await _context.DancePair
+                .FirstOrDefaultAsync(m => m.Id == id);
+            dancePair.grade3 = grade;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexGrade3));
         }
 
         // GET: DancePairs

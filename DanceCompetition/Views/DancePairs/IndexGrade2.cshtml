@@ -24,7 +24,7 @@
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Id)</td>
                 <td>
-                    @using (Html.BeginForm("ChangeGrade1", "DancePairs", FormMethod.Post))
+                    @using (Html.BeginForm("ChangeGrade2", "DancePairs", FormMethod.Post))
                     {
                         @foreach (int grade in new[] { 1, 2, 3, 4, 5 })
                         {
