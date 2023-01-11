@@ -1,5 +1,3 @@
-##Dance Competition
-
 Hambotantsuvõistlusel tantsitakse piki tänavat. Sama paari hindab žürii iga liige oma lõigul.
 
 Andmetabel tantsupaarid (id, hinne1, hinne2, hinne3)
