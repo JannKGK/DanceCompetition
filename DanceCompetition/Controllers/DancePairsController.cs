@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DanceCompetition.Data;
 using DanceCompetition.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DanceCompetition.Controllers
 {
@@ -16,6 +17,7 @@ namespace DanceCompetition.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> IndexResult()
         {
             var viewModel = new DancePairViewModel
@@ -25,6 +27,7 @@ namespace DanceCompetition.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = SeedData.ROLE_ADMIN)]
         public IActionResult MissingGrades(int grade)
         {
             var viewModel = new DancePairViewModel();
@@ -46,6 +49,7 @@ namespace DanceCompetition.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SeedData.ROLE_ADMIN)]
         public async Task<IActionResult> ChangeGrade(int id, int grade, int grade_value)
         {
             var dancePair = await _context.DancePair
@@ -70,11 +74,13 @@ namespace DanceCompetition.Controllers
             }       
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
               return View(await _context.DancePair.ToListAsync());
         }
 
+        [Authorize(Roles = SeedData.ROLE_ADMIN)]
         public IActionResult Create()
         {
             return View();
@@ -82,6 +88,7 @@ namespace DanceCompetition.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SeedData.ROLE_ADMIN)]
         public IActionResult Create(DancePair dancePair)
         {
             if (ModelState.IsValid)
