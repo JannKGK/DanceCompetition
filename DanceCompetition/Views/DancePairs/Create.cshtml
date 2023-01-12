@@ -1,17 +1,15 @@
 ﻿@model DanceCompetition.Models.DancePair
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add new dancepair";
 }
 
-<h1>Create</h1>
-
-<h4>DancePair</h4>
+<h1>Add new dancepair</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <label asp-for="name"></label>
+            <label asp-for="name">Name</label>
             <input asp-for="name" class="form-control" />
             <span asp-validation-for="name"></span>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
