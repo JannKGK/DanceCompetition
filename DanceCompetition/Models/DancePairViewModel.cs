@@ -7,5 +7,6 @@ namespace DanceCompetition.Models
         public List<DancePair> MissingGrade1 { get; set; }
         public List<DancePair> MissingGrade2 { get; set; }
         public List<DancePair> MissingGrade3 { get; set; }
+        public List<DancePair> FinishedContestants { get; set; }
     }
 }

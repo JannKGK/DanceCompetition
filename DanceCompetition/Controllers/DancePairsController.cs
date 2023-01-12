@@ -18,7 +18,11 @@ namespace DanceCompetition.Controllers
 
         public async Task<IActionResult> IndexResult()
         {
-            return View(await _context.DancePair.ToListAsync());
+            var viewModel = new DancePairViewModel
+            {
+                FinishedContestants = _context.DancePair.Where(x => x.grade1 != 0 && x.grade2 != 0 && x.grade3 != 0).ToList()
+            };
+            return View(viewModel);
         }
 
         public IActionResult MissingGrades(int grade)

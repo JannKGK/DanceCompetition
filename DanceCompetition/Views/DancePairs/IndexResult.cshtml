@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DanceCompetition.Models.DancePair>
+﻿@model DanceCompetition.Models.DancePairViewModel
 
 @{
     ViewData["Title"] = "Results";
@@ -10,14 +10,16 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Name</th>
             <th>Average Grade</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.OrderByDescending(x => x.getAverageGrade()))
+        @foreach (var item in Model.FinishedContestants.OrderByDescending(x => x.getAverageGrade()))
         {
             <tr>
                 <td>@item.Id</td>
+                <td>@item.name</td>
                 <td>@item.getAverageGrade()</td>
             </tr>
         }
