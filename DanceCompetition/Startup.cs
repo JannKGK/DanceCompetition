@@ -10,9 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DanceCompetition.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
-using DanceCompetition.Models;
 
 namespace DanceCompetition
 {
@@ -32,18 +29,11 @@ namespace DanceCompetition
 
             services.AddDbContext<DanceCompetitionContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DanceCompetitionContext")));
-
-            services.AddIdentity<DanceCompetitionUser, DanceCompetitionRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddDefaultUI()
-                .AddUserStore<DanceCompetitionContext>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            SetupAppDataAsync(app, env);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -94,34 +84,5 @@ namespace DanceCompetition
             }
             );
         }
-
-        private async Task SetupAppDataAsync(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            using var userManager = serviceScope.ServiceProvider.GetService<UserManager<DanceCompetitionUser>>();
-            using var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<DanceCompetitionRole>>();
-            using var context = serviceScope.ServiceProvider.GetService<DanceCompetitionContext>();
-            if (context == null)
-            {
-                throw new ApplicationException("Problem in services. Can not initialize DanceCompetitionContext");
-            }
-            while (true)
-            {
-                try
-                {
-                    context.Database.OpenConnection();
-                    context.Database.CloseConnection();
-                    break;
-                }
-                catch (SqlException e)
-                {
-                    if (e.Message.Contains("The login failed.")) { break; }
-                    System.Threading.Thread.Sleep(1000);
-                }
-            }
-            await SeedData.SeedIdentity(userManager, roleManager);
-            context.SaveChanges();
-        }
-
     }
 }
