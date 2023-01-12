@@ -15,14 +15,15 @@
             <th>
                 Grade
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
                 <td>
                     @using (Html.BeginForm("ChangeGrade1", "DancePairs", FormMethod.Post))
                     {
