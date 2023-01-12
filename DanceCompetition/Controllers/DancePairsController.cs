@@ -21,60 +21,49 @@ namespace DanceCompetition.Controllers
             return View(await _context.DancePair.ToListAsync());
         }
 
-        public async Task<IActionResult> IndexGrade1()
+        public IActionResult MissingGrades(int grade)
         {
-            var dancePairs = await _context.DancePair.ToListAsync();
-
-            var filteredDancePairs = dancePairs.Where(dp => dp.grade1 == 0);
-
-            return View(filteredDancePairs);
-        }
-
-        public async Task<IActionResult> IndexGrade2()
-        {
-            var dancePairs = await _context.DancePair.ToListAsync();
-
-            var filteredDancePairs = dancePairs.Where(dp => dp.grade2 == 0);
-
-            return View(filteredDancePairs);
-        }
-
-        public async Task<IActionResult> IndexGrade3()
-        {
-            var dancePairs = await _context.DancePair.ToListAsync();
-
-            var filteredDancePairs = dancePairs.Where(dp => dp.grade3 == 0);
-
-            return View(filteredDancePairs);
+            var viewModel = new DancePairViewModel();
+            switch (grade)
+            {
+                case 1:
+                    viewModel.MissingGrade1 = _context.DancePair.Where(x => x.grade1 == 0).ToList();
+                    return View("MissingGrades_Grade1", viewModel);
+                case 2:
+                    viewModel.MissingGrade2 = _context.DancePair.Where(x => x.grade2 == 0).ToList();
+                    return View("MissingGrades_Grade2", viewModel);
+                case 3:
+                    viewModel.MissingGrade3 = _context.DancePair.Where(x => x.grade3 == 0).ToList();
+                    return View("MissingGrades_Grade3", viewModel);
+                default:
+                    return View("Error");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeGrade1(int id, int grade)
+        public async Task<IActionResult> ChangeGrade(int id, int grade, int grade_value)
         {
             var dancePair = await _context.DancePair
                 .FirstOrDefaultAsync(m => m.Id == id);
-            dancePair.grade1 = grade;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexGrade1));
-        }
 
-        public async Task<IActionResult> ChangeGrade2(int id, int grade)
-        {
-            var dancePair = await _context.DancePair
-                .FirstOrDefaultAsync(m => m.Id == id);
-            dancePair.grade2 = grade;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexGrade2));
-        }
-
-        public async Task<IActionResult> ChangeGrade3(int id, int grade)
-        {
-            var dancePair = await _context.DancePair
-                .FirstOrDefaultAsync(m => m.Id == id);
-            dancePair.grade3 = grade;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexGrade3));
+            switch (grade)
+            {
+                case 1:
+                    dancePair.grade1 = grade_value;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("MissingGrades", new { grade = 1 });
+                case 2:
+                    dancePair.grade2 = grade_value;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("MissingGrades", new { grade = 2 });
+                case 3:
+                    dancePair.grade3 = grade_value;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("MissingGrades", new { grade = 3 });
+                default:
+                    return View("Error");
+            }       
         }
 
         public async Task<IActionResult> Index()
@@ -89,14 +78,15 @@ namespace DanceCompetition.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,grade1,grade2,grade3")] DancePair dancePair)
+        public IActionResult Create(DancePair dancePair)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(dancePair);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.DancePair.Add(dancePair);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
+
             return View(dancePair);
         }
 

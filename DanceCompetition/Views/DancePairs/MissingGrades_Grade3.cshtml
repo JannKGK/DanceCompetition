@@ -1,0 +1,47 @@
+﻿@model DanceCompetition.Models.DancePairViewModel
+
+@{
+    ViewData["Title"] = "Grade 3";
+}
+
+<h1>Grade 3</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Grade
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.MissingGrade3)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @using (Html.BeginForm("ChangeGrade", "DancePairs", FormMethod.Post))
+                    {
+                        @foreach (int grade in new[] { 1, 2, 3, 4, 5 })
+                        {
+                            <button type="submit" name="grade_value" value="@grade" class="btn btn-primary">@grade</button>
+                        }
+                        @Html.Hidden("id", item.Id, new {@Value=item.Id})
+                        @Html.Hidden("grade", 3, new {@Value=3})
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
