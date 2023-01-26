@@ -20,12 +20,14 @@ https://docs.google.com/document/d/1PRT-TL-ybt4JRZcL2y9EcRfgZ7dDNv0RQKXyGeKyB10/
 
 ### SQL laused
 Loo SQL lause tantsupaari sisestamiseks.
-INSERT INTO dbo.DancePair VALUES(1,'Bob and Mary',0,0,0);
+<sub>INSERT INTO dbo.DancePair VALUES(1,'Bob and Mary',0,0,0);</sub>
 
 Loo lause esimeses punktis hindamata paaride näitamiseks. 
-SELECT * FROM dbo.DancePair WHERE grade1 = 0;
+  <sub>SELECT * FROM dbo.DancePair WHERE grade1 = 0;</sub>
 
 Loo lause määratud id-ga paarile hinde määramiseks.
-UPDATE dbo.DancePair
-SET grade1 = 4
-WHERE id = 1;
+<sub>
+  UPDATE dbo.DancePair
+  SET grade1 = 4
+  WHERE id = 1;
+</sub>
