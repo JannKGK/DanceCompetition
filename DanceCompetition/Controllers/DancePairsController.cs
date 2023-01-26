@@ -18,6 +18,16 @@ namespace DanceCompetition.Controllers
         }
 
         [AllowAnonymous]
+        public async Task<IActionResult> IndexCompeting()
+        {
+            var viewModel = new DancePairViewModel
+            {
+                StillCompeting = _context.DancePair.Where(x => x.grade1 == 0 || x.grade2 == 0 || x.grade3 == 0).ToList()
+            };
+            return View(viewModel);
+        }
+
+        [AllowAnonymous]
         public async Task<IActionResult> IndexResult()
         {
             var viewModel = new DancePairViewModel

@@ -94,6 +94,12 @@ namespace DanceCompetition
                     defaults: new { controller = "DancePairs", action = "IndexResult" }
                 );
 
+                endpoints.MapControllerRoute(
+                    name: "contestants",
+                    pattern: "dancepairs/contestants",
+                    defaults: new { controller = "DancePairs", action = "IndexCompeting" }
+                );
+
                 endpoints.MapRazorPages();
             }
             );

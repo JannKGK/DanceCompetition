@@ -26,12 +26,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DancePairs" asp-action="">Dancepairs</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DancePairs" asp-action="contestants">Contestants</a>
                         </li>
-                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("ROLE_ADMIN"))
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DancePairs" asp-action="Create">Add dancepair</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DancePairs" asp-action="Create">Add new dancepair</a>
                         </li>                      
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="DancePairs" asp-action="grade1">Grade 1</a>
