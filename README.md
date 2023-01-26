@@ -1,8 +1,10 @@
-# Hambotantsuvõistlusel tantsitakse piki tänavat. Sama paari hindab žürii iga liige oma lõigul.
+# Hambotantsuvõistlus
 
 ## User guide: https://docs.google.com/document/d/1PRT-TL-ybt4JRZcL2y9EcRfgZ7dDNv0RQKXyGeKyB10/edit?usp=sharing
 
 ### Andmetabel tantsupaarid (id, hinne1, hinne2, hinne3)
+
+* Hambotantsuvõistlusel tantsitakse piki tänavat. Sama paari hindab žürii iga liige oma lõigul.
 
 * Loo SQL lause tantsupaari sisestamiseks. Loo lause esimeses punktis hindamata paaride näitamiseks. 
   Loo lause määratud id-ga paarile hinde määramiseks.
