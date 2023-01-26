@@ -1,6 +1,7 @@
 # Hambotantsuvõistlus
 
-## User guide: https://docs.google.com/document/d/1PRT-TL-ybt4JRZcL2y9EcRfgZ7dDNv0RQKXyGeKyB10/edit?usp=sharing
+## User guide: 
+https://docs.google.com/document/d/1PRT-TL-ybt4JRZcL2y9EcRfgZ7dDNv0RQKXyGeKyB10/edit?usp=sharing
 
 ### Andmetabel tantsupaarid (id, hinne1, hinne2, hinne3)
 
