@@ -1,0 +1,25 @@
+﻿@model DanceCompetition.Models.DancePair
+
+@{
+    ViewData["Title"] = "Add new DancePair";
+}
+
+<h1>Add new DancePair</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddDancePair">
+            <label asp-for="name">Names of the dance pair</label>
+            <input asp-for="name" class="form-control" />
+            <span asp-validation-for="name"></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

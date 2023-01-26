@@ -32,7 +32,7 @@ namespace DanceCompetition.Controllers
         {
             var viewModel = new DancePairViewModel
             {
-                FinishedContestants = _context.DancePair.Where(x => x.grade1 != 0 && x.grade2 != 0 && x.grade3 != 0).ToList()
+                FinishedContestants = _context.DancePair.Where(x => x.grade1 != 0 && x.grade2 != 0 && x.grade3 != 0).ToList(),
             };
             return View(viewModel);
         }
@@ -81,17 +81,11 @@ namespace DanceCompetition.Controllers
                     return RedirectToAction("MissingGrades", new { grade = 3 });
                 default:
                     return View("Error");
-            }       
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Index()
-        {
-              return View(await _context.DancePair.ToListAsync());
+            }
         }
 
         [Authorize(Roles = SeedData.ROLE_ADMIN)]
-        public IActionResult Create()
+        public IActionResult AddDancePair()
         {
             return View();
         }
@@ -99,17 +93,161 @@ namespace DanceCompetition.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = SeedData.ROLE_ADMIN)]
-        public IActionResult Create(DancePair dancePair)
+        public IActionResult AddDancePair(DancePair dancePair)
         {
             if (ModelState.IsValid)
             {
                 _context.DancePair.Add(dancePair);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexCompeting");
             }
 
             return View(dancePair);
         }
 
+
+        //generated methods
+
+
+        // GET: DancePairs
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.DancePair.ToListAsync());
+        }
+
+        // GET: DancePairs/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.DancePair == null)
+            {
+                return NotFound();
+            }
+
+            var dancePair = await _context.DancePair
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (dancePair == null)
+            {
+                return NotFound();
+            }
+
+            return View(dancePair);
+        }
+
+        // GET: DancePairs/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: DancePairs/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,name,grade1,grade2,grade3")] DancePair dancePair)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(dancePair);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(dancePair);
+        }
+
+        // GET: DancePairs/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.DancePair == null)
+            {
+                return NotFound();
+            }
+
+            var dancePair = await _context.DancePair.FindAsync(id);
+            if (dancePair == null)
+            {
+                return NotFound();
+            }
+            return View(dancePair);
+        }
+
+        // POST: DancePairs/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,name,grade1,grade2,grade3")] DancePair dancePair)
+        {
+            if (id != dancePair.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(dancePair);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DancePairExists(dancePair.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(dancePair);
+        }
+
+        // GET: DancePairs/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.DancePair == null)
+            {
+                return NotFound();
+            }
+
+            var dancePair = await _context.DancePair
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (dancePair == null)
+            {
+                return NotFound();
+            }
+
+            return View(dancePair);
+        }
+
+        // POST: DancePairs/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.DancePair == null)
+            {
+                return Problem("Entity set 'WebApplication2Context.DancePair'  is null.");
+            }
+            var dancePair = await _context.DancePair.FindAsync(id);
+            if (dancePair != null)
+            {
+                _context.DancePair.Remove(dancePair);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool DancePairExists(int id)
+        {
+            return _context.DancePair.Any(e => e.Id == id);
+        }
+
     }
 }
+
