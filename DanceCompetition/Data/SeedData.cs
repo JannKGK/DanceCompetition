@@ -14,13 +14,13 @@ namespace DanceCompetition.Data
         public const string ROLE_ADMIN = "Admin";
         public static async Task SeedIdentity(UserManager<DanceCompetitionUser> userManager, RoleManager<DanceCompetitionRole> roleManager)
         {
-            var user = await userManager.FindByNameAsync("kristjan.kessel@gmail.com");
+            var user = await userManager.FindByNameAsync("admin@DanceCompetition.com");
             if (user == null)
             {
                 user = new DanceCompetitionUser();
-                user.Email = "kristjan.kessel@gmail.com";
+                user.Email = "admin@DanceCompetition.com";
                 user.EmailConfirmed = true;
-                user.UserName = "kristjan";
+                user.UserName = "admin@DanceCompetition.com";
                 var userResult = await userManager.CreateAsync(user);
                 if (!userResult.Succeeded)
                 {
